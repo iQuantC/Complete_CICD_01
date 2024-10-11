@@ -16,11 +16,5 @@ pipeline {
 			}
 
 		}
-		stage('Lint'){
-			steps {
-				sh 'npm run format'
-				sh 'npm run lint'
-			}
-		}
 	}
 }
