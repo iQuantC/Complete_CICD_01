@@ -16,9 +16,10 @@ pipeline {
 			}
 
 		}
-	
-
+		stage('Snyk Security Scan'){
+			steps {
+				sh 'snyk test'
+			}
+		}
 	}
-
-
 }
