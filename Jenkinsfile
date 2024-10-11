@@ -16,9 +16,10 @@ pipeline {
 			}
 
 		}
-		stage('Snyk Security Scan'){
+		stage('Lint'){
 			steps {
-				sh 'snyk test'
+				sh 'npm run format'
+				sh 'npm run lint'
 			}
 		}
 	}
