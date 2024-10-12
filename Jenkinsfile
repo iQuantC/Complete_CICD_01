@@ -7,6 +7,7 @@ pipeline {
 		SONAR_SCANNER_HOME = tool 'SonarQubeScanner'
 		SONAR_PROJECT_KEY = 'complete-cicd-01'
 		DOCKER_HUB_REPO = 'iquantc/complete-cicd-01'
+		DOCKER_HUB_CRED_ID = 'cicd-01-dhub-token'
 	}
 	stages {
 		stage('GitHub'){
@@ -47,6 +48,15 @@ pipeline {
 		stage('Trivy Scan'){
 			steps {
 				sh 'trivy --severity HIGH,CRITICAL --no-progress --format table -o trivy-cicd-01-report.html image ${DOCKER_HUB_REPO}:latest'	
+			}
+		}
+		stage('Push Image to DockerHub'){
+			steps {
+				script {
+					docker.withRegistry('https://registry.hub.docker.com', "${DOCKER_HUB_CRED_ID}"){
+						dockerImage.push("latest")
+					}
+				}	
 			}
 		}
 	}
